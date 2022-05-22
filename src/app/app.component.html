@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="card col-6">
+      <div class="card-header ">login</div>
+      <div class="card-body ">
+        <ng-container [formGroup]="myForm">
+          <ng-container *ngFor="let formItem of dynamicFormFields">
+            <app-dynamic-form-field [formItem]="formItem"></app-dynamic-form-field>
+          </ng-container>
+          <!--<pre>{{myForm.value|json}}</pre>
+          isValid: {{myForm.valid}}-->
+        </ng-container>
+      </div>
+      <div class="card-footer">
+        <button class="btn btn-info"  type="submit" (click)="onSubmit()" [disabled]="!myForm.valid">register</button>
+      </div>
+    </div>
+    <div class="card col-6">
+      <table>
+        <tr>
+          <td>fullName</td>
+          <td>Age</td>
+          <td>AddressType</td>
+          <td>Action</td>
+        </tr>
+        <tr *ngFor="let item of infos;let i=index;">
+          <td>{{item.fullName}}</td>
+          <td>{{item.Age}}</td>
+          <td>{{item.AddressType}}</td>
+          <td><button class="btn btn-danger" (click)="delete(i)"> delete</button></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
