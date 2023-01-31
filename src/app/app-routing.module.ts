@@ -1,8 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {DynamicFormFieldComponent} from "./dynamic-form-field/dynamic-form-field.component";
+import {AppComponent} from "./app.component";
 
-const routes: Routes = [];
+const routes: Routes = [
+  {
+    path:'',
+    component:AppComponent
+  }
+];
 
 @NgModule({
     imports: [RouterModule.forRoot(routes)],

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validator, Validators} from "@angular/forms";
-import {DynamicForm0fieldModel} from "./dynamic-form0field.model";
-import {InformationModel} from "./information.model";
+import {ControlBase} from "./controls/control-base";
+import {DataService} from "./data.service";
+import {MetaService} from "./meta.service";
 
 @Component({
   selector: 'app-root',
@@ -9,65 +9,25 @@ import {InformationModel} from "./information.model";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  myForm!: FormGroup;
-  dynamicFormFields!: DynamicForm0fieldModel[]
-  infos: InformationModel[]=[];
+  title = 'dynamic-form-app';
+  meta: ControlBase[]=[];
+  data!: any;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private metaService: MetaService, private dataService: DataService) {
+    this.refresh();
   }
 
-  ngOnInit(): void {
-    this.myForm = this.fb.group({});
-    this.dynamicFormFields = [
-      {
-        id: 'fullName',
-        label: 'fullName',
-        type: 'text',
-        validators:[Validators.required]
-      },
-      {
-        id: 'Age',
-        label: 'Age',
-        type: 'number',
-        validators:[Validators.required]
-      },
-      {
-        id: 'AddressType',
-        label: 'AddressType',
-        type: 'select',
-        selectMenuOptions: {
-          'Home': 'Home',
-          'Work': 'Work',
-          'Hom2': 'Hom2'
-        }
-      },
-      {
-        id: 'description',
-        label: 'description',
-        type: 'textArea',
-        validators: [Validators.required]
-      },
-      {
-        id: 'birthDate',
-        label: 'birthDate',
-        type: 'date',
-        validators: [Validators.required]
-      }
-    ]
-    this.dynamicFormFields.forEach(formItem => {
-      const formControl = this.fb.control(formItem.value, formItem.validators)
-      this.myForm.addControl(formItem.id, formControl);
-    })
+  ngOnInit() {
+    console.log(this.data);
+    /*this.refresh();*/
   }
 
-  onSubmit() {
-    const information: InformationModel = this.myForm.value;
-    this.infos.push(information);
-    this.myForm.reset();
-
-  }
-
-  delete(index:any) {
-    this.infos.splice(index, 1);
+  refresh() {
+    this.dataService.getData().subscribe(a => {
+      this.data = a;
+    });
+    this.metaService.getMeta().subscribe(a => {
+      this.meta = a;
+    });
   }
 }
